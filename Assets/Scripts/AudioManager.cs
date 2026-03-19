@@ -1,25 +1,43 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
-    [SerializeField] private AudioClip[] _jumpSounds;
+    [SerializeField] private AudioMixer _mainMixer; // 2. Ссылка на микшер
     [SerializeField] private AudioSource _sfxSource;
     [SerializeField] private AudioSource _musicSource;
+    [SerializeField] private AudioClip[] _jumpSounds;
     [SerializeField] private AudioClip[] _musicClips;
 
-    public float minPitch = 0.8f;         // Низкий тон
+    [SerializeField] private Slider _masterSlider;
+    [SerializeField] private Slider _musicSlider;
+    [SerializeField] private Slider _sfxSlider;
+
+    public float minPitch = 0.8f;
     public float maxPitch = 1.5f;
-    public float sfxVolume = 0.7f;
-    public float musicVolume = 0.7f;
+
+    void Awake()
+    {
+        float mVal = PlayerPrefs.GetFloat("MasterVol", 0.75f);
+        float musVal = PlayerPrefs.GetFloat("MusicVol", 0.75f);
+        float sfxVal = PlayerPrefs.GetFloat("SfxVol", 0.75f);
+
+        SetGroupVolume("MasterVol", mVal);
+        SetGroupVolume("MusicVol", musVal);
+        SetGroupVolume("SfxVol", sfxVal);
+
+        if (_masterSlider != null) _masterSlider.value = mVal;
+        if (_musicSlider != null) _musicSlider.value = musVal;
+        if (_sfxSlider != null) _sfxSlider.value = sfxVal;
+    }
 
     void Start()
     {
-        _sfxSource.volume = sfxVolume;
-        _musicSource.volume = musicVolume;
         PlayRandomTrack();
     }
+
 
     void Update()
     {
@@ -27,6 +45,20 @@ public class AudioManager : MonoBehaviour
         {
             PlayRandomTrack();
         }
+    }
+
+    // Метод, который мы будем вызывать из Слайдеров в меню
+    public void SetGroupVolume(string parameter, float value)
+    {
+        // Переводим 0..1 в децибелы
+        _mainMixer.SetFloat(parameter, Mathf.Log10(value) * 20);
+        PlayerPrefs.SetFloat(parameter, value);
+    }
+
+    private void LoadVolume(string parameter)
+    {
+        float val = PlayerPrefs.GetFloat(parameter, 0.75f);
+        _mainMixer.SetFloat(parameter, Mathf.Log10(val) * 20);
     }
 
     public void PlayJumpSound()
