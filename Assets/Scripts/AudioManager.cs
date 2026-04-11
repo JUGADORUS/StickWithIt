@@ -38,7 +38,6 @@ public class AudioManager : MonoBehaviour
         PlayRandomTrack();
     }
 
-
     void Update()
     {
         if (!_musicSource.isPlaying && _musicClips.Length > 0)
