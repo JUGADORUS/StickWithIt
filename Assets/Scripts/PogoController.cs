@@ -12,6 +12,7 @@ public class PogoController : MonoBehaviour
     {
         _rigidbody.maxAngularVelocity = _maxAngularVelocity;
         _rigidbody.centerOfMass = Vector3.zero;
+            // + new Vector3(0f,0.3f,0f);
     }
 
     void Update()
