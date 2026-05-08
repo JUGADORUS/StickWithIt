@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Rendering;
@@ -35,14 +36,14 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        PlayRandomTrack();
+        PlayFirstSong();
     }
 
     void Update()
     {
         if (!_musicSource.isPlaying && _musicClips.Length > 0)
         {
-            PlayRandomTrack();
+            PlayFirstSong();
         }
     }
 
@@ -63,13 +64,19 @@ public class AudioManager : MonoBehaviour
     public void PlayJumpSound()
     {
         Debug.Log("JUMPSOUND");
-        _sfxSource.pitch = Random.Range(minPitch, maxPitch);
-        _sfxSource.PlayOneShot(_jumpSounds[Random.Range(0,_jumpSounds.Length)]);
+        _sfxSource.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
+        _sfxSource.PlayOneShot(_jumpSounds[UnityEngine.Random.Range(0,_jumpSounds.Length)]);
     }
 
     void PlayRandomTrack()
     {
-        int index = Random.Range(0, _musicClips.Length);
+        int index = UnityEngine.Random.Range(0, _musicClips.Length);
+        _musicSource.clip = _musicClips[index];
+        _musicSource.Play();
+    }
+    void PlayFirstSong()
+    {
+        int index = 31;
         _musicSource.clip = _musicClips[index];
         _musicSource.Play();
     }
