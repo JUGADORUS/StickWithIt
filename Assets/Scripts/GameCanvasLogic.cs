@@ -20,7 +20,7 @@ public class GameCanvasLogic : MonoBehaviour
 
             Vector3 targetPos = new Vector3(x, y, z);
 
-            if (_player != null)
+            /*if (_player != null)
             {
                 Rigidbody rb = _player.GetComponent<Rigidbody>();
 
@@ -32,7 +32,7 @@ public class GameCanvasLogic : MonoBehaviour
                 }
 
                 _player.transform.position = targetPos;
-            }
+            }*/
         }
     }
 
