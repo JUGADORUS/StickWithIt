@@ -7,11 +7,15 @@ public class PogoController : MonoBehaviour
     [SerializeField] private float _jumpForce; // Максимальная сила прыжка
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private float _jumpCooldown = 0.3f;
+    private float _lastJumpTime;
 
     private void Start()
     {
         _rigidbody.maxAngularVelocity = _maxAngularVelocity;
         _rigidbody.centerOfMass = Vector3.zero;
+        _lastJumpTime = -_jumpCooldown;
+        // + new Vector3(0f,0.3f,0f);
     }
 
     void Update()
@@ -24,11 +28,12 @@ public class PogoController : MonoBehaviour
             _rigidbody.AddTorque(vector,ForceMode.Impulse);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && _groundChecker.CanJump)
+        if (Input.GetKeyDown(KeyCode.Space) && _groundChecker.CanJump && Time.time >= _lastJumpTime + _jumpCooldown)
         {
             Debug.Log("JUMP");
             _groundChecker.OnJump();
             _rigidbody.AddForce(transform.up * _jumpForce);
+            _lastJumpTime = Time.time;
         }
     }
 }
