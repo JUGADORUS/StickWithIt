@@ -17900,7 +17900,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
@@ -30538,7 +30538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3503090970980540751, guid: 4f2330ccf01e21242ad2bd48561f72d0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.308655
+      value: -7.0718384
       objectReference: {fileID: 0}
     - target: {fileID: 3503090970980540751, guid: 4f2330ccf01e21242ad2bd48561f72d0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -30550,7 +30550,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5401633871269518841, guid: 4f2330ccf01e21242ad2bd48561f72d0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.308655
+      value: -7.0718384
       objectReference: {fileID: 0}
     - target: {fileID: 5401633871269518841, guid: 4f2330ccf01e21242ad2bd48561f72d0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -32839,7 +32839,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
