@@ -9,7 +9,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     [SerializeField] private float cooldown = 0.2f; //1 ύττεκς max β 0.2 ρεκ
     private float lastEffectTime;
-
+        
     private void OnEnable()
     {
         _groundChecker.OutOfGround += PlayLandingEffects;
