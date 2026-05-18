@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource _sfxSource;
     [SerializeField] private AudioSource _musicSource;
     [SerializeField] private AudioClip[] _jumpSounds;
-    [SerializeField] private AudioClip[] _musicClips;
+    [SerializeField] public AudioClip[] _musicClips;
 
     [SerializeField] private Slider _masterSlider;
     [SerializeField] private Slider _musicSlider;
@@ -18,6 +18,9 @@ public class AudioManager : MonoBehaviour
 
     public float minPitch = 0.8f;
     public float maxPitch = 1.5f;
+
+    private AudioClip[] _nextMusicClips; // ADDED: следующий массив музыки, который включится после конца текущего трека
+    private bool _playFirstTrackFromNewPlaylist; // ADDED: нужно ли после переключения включить именно первый трек нового массива
 
     void Awake()
     {
@@ -41,9 +44,25 @@ public class AudioManager : MonoBehaviour
 
     void Update()
     {
-        if (!_musicSource.isPlaying && _musicClips.Length > 0)
+        if (!_musicSource.isPlaying && Application.isFocused)
         {
-            PlayFirstSong();
+            if (_nextMusicClips != null && _nextMusicClips.Length > 0) // ADDED: если запрошен новый плейлист — переключаемся только после конца текущего трека
+            {
+                _musicClips = _nextMusicClips; // ADDED: теперь текущий массив музыки становится новым
+                _nextMusicClips = null; // ADDED: очищаем ожидание переключения
+
+                if (_playFirstTrackFromNewPlaylist) // ADDED: если надо начать именно с первого трека нового массива
+                {
+                    _playFirstTrackFromNewPlaylist = false; // ADDED: сбрасываем флаг после использования
+                    PlayFirstSong(); // ADDED: запускаем первый трек нового массива
+                    return; // ADDED: выходим, чтобы ниже не запустился ещё и случайный трек
+                }
+            }
+
+            if (_musicClips != null && _musicClips.Length > 0) // ADDED: защита от пустого массива
+            {
+                PlayRandomTrack();
+            }
         }
     }
 
@@ -74,10 +93,17 @@ public class AudioManager : MonoBehaviour
         _musicSource.clip = _musicClips[index];
         _musicSource.Play();
     }
+
     void PlayFirstSong()
     {
-        int index = 31;
+        int index = 0;
         _musicSource.clip = _musicClips[index];
         _musicSource.Play();
+    }
+
+    public void SwitchPlaylistAfterCurrentTrack(AudioClip[] newPlaylist, bool playFirstTrack = true) // ADDED: метод для отложенного переключения плейлиста
+    {
+        _nextMusicClips = newPlaylist; // ADDED: сохраняем новый массив, но не включаем его сразу
+        _playFirstTrackFromNewPlaylist = playFirstTrack; // ADDED: запоминаем, запускать первый трек или случайный
     }
 }

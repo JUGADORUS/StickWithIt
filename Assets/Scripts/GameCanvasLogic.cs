@@ -10,6 +10,7 @@ public class GameCanvasLogic : MonoBehaviour
 
     private void Start()
     {
+        Cursor.visible = false;
         Time.timeScale = 1f;
 
         if (PlayerPrefs.GetInt("HasSave", 0) == 1)
@@ -20,7 +21,7 @@ public class GameCanvasLogic : MonoBehaviour
 
             Vector3 targetPos = new Vector3(x, y, z);
 
-            /*if (_player != null)
+            if (_player != null)
             {
                 Rigidbody rb = _player.GetComponent<Rigidbody>();
 
@@ -32,7 +33,7 @@ public class GameCanvasLogic : MonoBehaviour
                 }
 
                 _player.transform.position = targetPos;
-            }*/
+            }
         }
     }
 
@@ -41,6 +42,7 @@ public class GameCanvasLogic : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale == 1)
         {
             OpenPause();
+            Cursor.visible = true;
         }
         else if (Input.GetKeyDown(KeyCode.Escape) && Time.timeScale == 0 && _settings.activeSelf)
         {
@@ -67,6 +69,7 @@ public class GameCanvasLogic : MonoBehaviour
     public void ClosePause()
     {
         _pauseMenu.SetActive(false);
+        Cursor.visible = false;
         Time.timeScale = 1f;
     }
 
